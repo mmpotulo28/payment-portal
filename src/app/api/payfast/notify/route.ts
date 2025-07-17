@@ -101,6 +101,8 @@ export async function POST(request: NextRequest) {
 			const { error } = await supabase.from("orders").insert(orders);
 			if (error) {
 				logger.error("Failed to create order after payment:", error);
+			} else {
+				logger.info("Orders created successfully after payment", { orders });
 			}
 
 			// 3. Update inventory
