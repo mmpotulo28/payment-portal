@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { CheckCircleIcon, PrinterIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
 import { HomeIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 
-export default function PaymentSuccess() {
+function PaymentSuccessContent() {
 	const [paymentDetails, setPaymentDetails] = useState<{
 		paymentId: string | null;
 		amount: string | null;
@@ -192,4 +192,12 @@ export default function PaymentSuccess() {
 			</div>
 		</div>
 	);
+}
+
+export default PaymentSuccessPage() {
+return (
+<Suspense fallback="loading payment..">
+<PaymentSuccessPage />
+</Suspense>
+)
 }
