@@ -10,13 +10,13 @@ interface CartSummaryProps {
 
 export default function CartSummary({ cart }: CartSummaryProps) {
 	const [quantities, setQuantities] = useState<Record<string, number>>(
-		cart.items.reduce((acc, item) => ({ ...acc, [item.id]: item.quantity }), {})
+		cart.items.reduce((acc, item) => ({ ...acc, [item.id]: item.quantity }), {}),
 	);
 	const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
 	const updateQuantity = (itemId: string, newQuantity: number) => {
 		if (newQuantity < 1) return;
-		setQuantities(prev => ({ ...prev, [itemId]: newQuantity }));
+		setQuantities((prev) => ({ ...prev, [itemId]: newQuantity }));
 		// TODO: Update cart in backend/state management
 		console.log(`Update item ${itemId} to quantity ${newQuantity}`);
 	};
@@ -27,7 +27,7 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 	};
 
 	const toggleFavorite = (itemId: string) => {
-		setFavorites(prev => ({ ...prev, [itemId]: !prev[itemId] }));
+		setFavorites((prev) => ({ ...prev, [itemId]: !prev[itemId] }));
 	};
 
 	const calculateItemTotal = (itemId: string, price: number) => {
@@ -40,11 +40,15 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 				<div className="flex items-center justify-between">
 					<div>
 						<h2 className="text-lg font-semibold text-gray-900">Your Items</h2>
-						<p className="text-sm text-gray-600">{cart.items_count} items in your cart</p>
+						<p className="text-sm text-gray-600">
+							{cart.items_count} items in your cart
+						</p>
 					</div>
 					<div className="text-right">
 						<p className="text-sm text-gray-500">Subtotal</p>
-						<p className="text-lg font-bold text-gray-900">R{cart.total_amount.toFixed(2)}</p>
+						<p className="text-lg font-bold text-gray-900">
+							R{cart.total_amount.toFixed(2)}
+						</p>
 					</div>
 				</div>
 			</div>
@@ -53,9 +57,11 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 				{cart.items.map((item, index) => {
 					const itemQuantity = quantities[item.id] || item.quantity;
 					const itemTotal = calculateItemTotal(item.id, item.price);
-					
+
 					return (
-						<div key={item.id} className="p-6 hover:bg-gray-50 transition-colors duration-200">
+						<div
+							key={item.id}
+							className="p-6 hover:bg-gray-50 transition-colors duration-200">
 							<div className="flex items-start space-x-4">
 								{/* Item Image */}
 								<div className="flex-shrink-0 relative group">
@@ -82,13 +88,16 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 												</p>
 											)}
 										</div>
-										
+
 										{/* Favorite Button */}
 										<button
 											onClick={() => toggleFavorite(item.id)}
 											className="ml-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
-											title={favorites[item.id] ? "Remove from favorites" : "Add to favorites"}
-										>
+											title={
+												favorites[item.id]
+													? "Remove from favorites"
+													: "Add to favorites"
+											}>
 											{favorites[item.id] ? (
 												<HeartIconSolid className="h-5 w-5 text-red-500" />
 											) : (
@@ -102,21 +111,26 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 											{/* Quantity Controls */}
 											<div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
 												<button
-													onClick={() => updateQuantity(item.id, Math.max(1, itemQuantity - 1))}
+													onClick={() =>
+														updateQuantity(
+															item.id,
+															Math.max(1, itemQuantity - 1),
+														)
+													}
 													className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
 													disabled={itemQuantity <= 1}
-													title="Decrease quantity"
-												>
+													title="Decrease quantity">
 													<MinusIcon className="h-4 w-4 text-gray-600" />
 												</button>
 												<span className="px-4 py-2 text-sm font-medium text-gray-900 border-x border-gray-300 bg-gray-50">
 													{itemQuantity}
 												</span>
 												<button
-													onClick={() => updateQuantity(item.id, itemQuantity + 1)}
+													onClick={() =>
+														updateQuantity(item.id, itemQuantity + 1)
+													}
 													className="p-2 hover:bg-gray-100 transition-colors"
-													title="Increase quantity"
-												>
+													title="Increase quantity">
 													<PlusIcon className="h-4 w-4 text-gray-600" />
 												</button>
 											</div>
@@ -125,8 +139,7 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 											<button
 												onClick={() => removeItem(item.id)}
 												className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
-												title="Remove item"
-											>
+												title="Remove item">
 												<TrashIcon className="h-4 w-4" />
 											</button>
 										</div>

@@ -101,7 +101,7 @@ export const DUMMY_CART: iCart = {
 	id: "cart-user-123",
 	user_id: "user-123",
 	items: DUMMY_CART_ITEMS,
-	total_amount: DUMMY_CART_ITEMS.reduce((total, item) => total + (item.price * item.quantity), 0),
+	total_amount: DUMMY_CART_ITEMS.reduce((total, item) => total + item.price * item.quantity, 0),
 	items_count: DUMMY_CART_ITEMS.reduce((count, item) => count + item.quantity, 0),
 	created_at: new Date().toISOString(),
 	updated_at: new Date().toISOString(),

@@ -32,19 +32,21 @@ export default function PaymentPage() {
 		if (!selectedPaymentMethod || !cart) return;
 
 		setIsProcessing(true);
-		
+
 		try {
 			if (selectedPaymentMethod === "payfast") {
 				// Generate unique payment ID
 				const paymentId = `PF_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-				
+
 				// Redirect to PayFast
 				const paymentData = {
 					merchant_id: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_ID || "10000100",
 					merchant_key: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_KEY || "46f0cd694581a",
 					amount: cart.total_amount.toFixed(2),
 					item_name: `Order for ${cart.items_count} items`,
-					item_description: cart.items.map(item => `${item.item_name} (x${item.quantity})`).join(", "),
+					item_description: cart.items
+						.map((item) => `${item.item_name} (x${item.quantity})`)
+						.join(", "),
 					return_url: `${window.location.origin}/payment/success?payment_id=${paymentId}`,
 					cancel_url: `${window.location.origin}/payment/cancel?payment_id=${paymentId}`,
 					notify_url: `${window.location.origin}/api/payfast/notify`,
@@ -71,7 +73,7 @@ export default function PaymentPage() {
 				});
 
 				document.body.appendChild(form);
-				
+
 				// Add a small delay to show processing state
 				setTimeout(() => {
 					form.submit();
@@ -89,8 +91,12 @@ export default function PaymentPage() {
 			<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
 				<div className="text-center">
 					<div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-					<h2 className="text-xl font-semibold text-gray-700 mb-2">Loading your cart...</h2>
-					<p className="text-gray-500">Please wait while we prepare your checkout experience</p>
+					<h2 className="text-xl font-semibold text-gray-700 mb-2">
+						Loading your cart...
+					</h2>
+					<p className="text-gray-500">
+						Please wait while we prepare your checkout experience
+					</p>
 				</div>
 			</div>
 		);
@@ -105,13 +111,12 @@ export default function PaymentPage() {
 					</div>
 					<h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
 					<p className="text-gray-600 mb-6">
-						Looks like you haven&apos;t added any items to your cart yet. 
-						Start shopping to see your items here!
+						Looks like you haven&apos;t added any items to your cart yet. Start shopping
+						to see your items here!
 					</p>
-					<Link 
+					<Link
 						href="/"
-						className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
-					>
+						className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
 						Start Shopping
 					</Link>
 				</div>
@@ -126,10 +131,9 @@ export default function PaymentPage() {
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
 					<div className="flex items-center justify-between">
 						<div className="flex items-center space-x-4">
-							<Link 
+							<Link
 								href="/"
-								className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors"
-							>
+								className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
 								<ChevronLeftIcon className="h-4 w-4 mr-1" />
 								Back to shopping
 							</Link>
@@ -152,7 +156,9 @@ export default function PaymentPage() {
 							<div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
 								1
 							</div>
-							<span className="ml-2 text-sm font-medium text-blue-600">Review Items</span>
+							<span className="ml-2 text-sm font-medium text-blue-600">
+								Review Items
+							</span>
 						</div>
 						<div className="w-16 h-0.5 bg-blue-600"></div>
 						<div className="flex items-center">
@@ -181,7 +187,7 @@ export default function PaymentPage() {
 
 						{/* Payment Methods */}
 						<div className="animate-fadeIn animation-delay-200">
-							<PaymentMethods 
+							<PaymentMethods
 								paymentMethods={paymentMethods}
 								selectedMethod={selectedPaymentMethod}
 								onSelectMethod={handlePaymentMethodSelect}
@@ -192,7 +198,7 @@ export default function PaymentPage() {
 					{/* Sidebar */}
 					<div className="lg:col-span-1">
 						<div className="animate-fadeIn animation-delay-400">
-							<OrderSummary 
+							<OrderSummary
 								cart={cart}
 								selectedPaymentMethod={selectedPaymentMethod}
 								onProceedToPayment={handleProceedToPayment}

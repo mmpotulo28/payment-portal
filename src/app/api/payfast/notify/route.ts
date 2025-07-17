@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
 		// Parse the form data from PayFast
 		const formData = await request.formData();
 		const params: Record<string, string> = {};
-		
+
 		formData.forEach((value, key) => {
 			params[key] = value.toString();
 		});
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
 		// Validate the IPN
 		const isValid = await validatePayfastIPN(params);
-		
+
 		if (!isValid) {
 			logger.error("Invalid PayFast IPN received");
 			return NextResponse.json({ error: "Invalid IPN" }, { status: 400 });
@@ -68,12 +68,8 @@ export async function POST(request: NextRequest) {
 		}
 
 		return NextResponse.json({ success: true });
-
 	} catch (error) {
 		logger.error("Error processing PayFast IPN:", error);
-		return NextResponse.json(
-			{ error: "Internal server error" }, 
-			{ status: 500 }
-		);
+		return NextResponse.json({ error: "Internal server error" }, { status: 500 });
 	}
 }

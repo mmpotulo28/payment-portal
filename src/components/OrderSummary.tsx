@@ -10,11 +10,11 @@ interface OrderSummaryProps {
 	isProcessing: boolean;
 }
 
-export default function OrderSummary({ 
-	cart, 
-	selectedPaymentMethod, 
-	onProceedToPayment, 
-	isProcessing 
+export default function OrderSummary({
+	cart,
+	selectedPaymentMethod,
+	onProceedToPayment,
+	isProcessing,
 }: OrderSummaryProps) {
 	const subtotal = cart.total_amount;
 	const taxRate = 0.15; // 15% VAT
@@ -39,12 +39,12 @@ export default function OrderSummary({
 						<span className="text-gray-600">Subtotal ({cart.items_count} items)</span>
 						<span className="text-gray-900 font-medium">R{subtotal.toFixed(2)}</span>
 					</div>
-					
+
 					<div className="flex justify-between text-sm">
 						<span className="text-gray-600">VAT (15%)</span>
 						<span className="text-gray-900 font-medium">R{tax.toFixed(2)}</span>
 					</div>
-					
+
 					<div className="flex justify-between text-sm">
 						<span className="text-gray-600">Shipping</span>
 						<span className="text-green-600 font-medium">Free</span>
@@ -53,10 +53,12 @@ export default function OrderSummary({
 					{discount > 0 && (
 						<div className="flex justify-between text-sm">
 							<span className="text-gray-600">Discount</span>
-							<span className="text-green-600 font-medium">-R{discount.toFixed(2)}</span>
+							<span className="text-green-600 font-medium">
+								-R{discount.toFixed(2)}
+							</span>
 						</div>
 					)}
-					
+
 					<div className="border-t border-gray-200 pt-3">
 						<div className="flex justify-between text-lg font-semibold">
 							<span className="text-gray-900">Total</span>
@@ -75,9 +77,8 @@ export default function OrderSummary({
 							"w-full flex items-center justify-center px-6 py-3 text-base font-medium rounded-xl transition-all duration-200 transform",
 							canProceed
 								? "text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 shadow-lg hover:shadow-xl hover:-translate-y-0.5"
-								: "text-gray-400 bg-gray-200 cursor-not-allowed"
-						)}
-					>
+								: "text-gray-400 bg-gray-200 cursor-not-allowed",
+						)}>
 						{isProcessing ? (
 							<>
 								<div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
@@ -127,8 +128,12 @@ export default function OrderSummary({
 						{cart.items.map((item) => (
 							<div key={item.id} className="flex justify-between items-start text-xs">
 								<div className="flex-1 min-w-0 pr-3">
-									<p className="text-gray-900 truncate font-medium">{item.item_name}</p>
-									<p className="text-gray-500">Qty: {item.quantity} × R{item.price.toFixed(2)}</p>
+									<p className="text-gray-900 truncate font-medium">
+										{item.item_name}
+									</p>
+									<p className="text-gray-500">
+										Qty: {item.quantity} × R{item.price.toFixed(2)}
+									</p>
 								</div>
 								<p className="text-gray-900 font-medium">
 									R{(item.price * item.quantity).toFixed(2)}
