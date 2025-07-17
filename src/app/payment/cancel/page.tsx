@@ -11,7 +11,7 @@ import {
 import { HomeIcon, CreditCardIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import styles from "./CancelPage.module.css";
 
-export function PaymentCancelContent() {
+ function PaymentCancelContent() {
 	const [paymentId, setPaymentId] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const searchParams = useSearchParams();
