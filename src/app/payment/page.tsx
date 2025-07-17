@@ -14,12 +14,6 @@ import axios from "axios";
 
 export default function PaymentPage() {
 	const { isSignedIn, isLoaded } = useUser();
-	if (!isLoaded) {
-		return null;
-	}
-	if (!isSignedIn) {
-		return <RedirectToSignIn />;
-	}
 	const [cart, setCart] = useState<iCart | null>(null);
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("");
 	const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +34,7 @@ export default function PaymentPage() {
 		};
 		fetchCart();
 	}, []);
+
 
 	const handlePaymentMethodSelect = (methodId: string) => {
 		setSelectedPaymentMethod(methodId);
@@ -102,6 +97,13 @@ export default function PaymentPage() {
 			alert("An error occurred while processing your payment. Please try again.");
 		}
 	};
+
+if (!isLoaded) {
+		return null;
+	}
+	if (!isSignedIn) {
+		return <RedirectToSignIn />;
+	}
 
 	if (isLoading) {
 		return (
