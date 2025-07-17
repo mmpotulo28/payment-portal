@@ -157,6 +157,8 @@ export interface iAuctionItem {
 	condition: iCondition;
 	auction: iAuction;
 	sold?: boolean; // Add this line
+	created_at?: string;
+	updated_at?: string;
 }
 
 export interface iAuction {
@@ -264,23 +266,10 @@ export interface iNotification {
 	user_id?: string;
 }
 
-export interface iCartItem {
-	id: string;
-	item_id: string;
-	item_name: string;
-	item_description?: string;
-	price: number;
-	quantity: number;
-	image: string;
-	user_id: string;
-	created_at: string;
-	updated_at: string;
-}
-
 export interface iCart {
 	id: string;
 	user_id: string;
-	items: iCartItem[];
+	items: iAuctionItem[];
 	total_amount: number;
 	items_count: number;
 	created_at: string;

@@ -118,13 +118,13 @@ export default function OrderSummary({
 						{cart.items.map((item) => (
 							<div key={item.id} className={styles.itemsPreviewItem}>
 								<div style={{ flex: 1, minWidth: 0, paddingRight: 12 }}>
-									<p className={styles.itemsPreviewItemName}>{item.item_name}</p>
+									<p className={styles.itemsPreviewItemName}>{item.title}</p>
 									<p className={styles.itemsPreviewItemDesc}>
-										Qty: {item.quantity} × R{item.price.toFixed(2)}
+										Qty: {1} × R{item.price.toFixed(2)}
 									</p>
 								</div>
 								<p className={styles.itemsPreviewItemName}>
-									R{(item.price * item.quantity).toFixed(2)}
+									R{(item.price * 1).toFixed(2)}
 								</p>
 							</div>
 						))}

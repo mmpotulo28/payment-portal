@@ -35,7 +35,6 @@ export default function PaymentPage() {
 		fetchCart();
 	}, []);
 
-
 	const handlePaymentMethodSelect = (methodId: string) => {
 		setSelectedPaymentMethod(methodId);
 	};
@@ -57,7 +56,7 @@ export default function PaymentPage() {
 					amount: cart.total_amount.toFixed(2),
 					item_name: `AMSA Order for ${cart.items_count} items`,
 					item_description: cart.items
-						.map((item) => `${item.item_name} (x${item.quantity})`)
+						.map((item) => `${item.title} (x${item.id})`)
 						.join(", "),
 					return_url: `${window?.location?.origin}/payment/success?payment_id=${paymentId}`,
 					cancel_url: `${window?.location?.origin}/payment/cancel?payment_id=${paymentId}`,
@@ -98,7 +97,7 @@ export default function PaymentPage() {
 		}
 	};
 
-if (!isLoaded) {
+	if (!isLoaded) {
 		return null;
 	}
 	if (!isSignedIn) {

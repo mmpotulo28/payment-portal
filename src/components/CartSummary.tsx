@@ -12,7 +12,7 @@ interface CartSummaryProps {
 
 export default function CartSummary({ cart }: CartSummaryProps) {
 	const [quantities, setQuantities] = useState<Record<string, number>>(
-		cart.items.reduce((acc, item) => ({ ...acc, [item.id]: item.quantity }), {}),
+		cart.items.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {}),
 	);
 	const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
@@ -51,7 +51,7 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 
 			<div className={styles.items}>
 				{cart.items.map((item, index) => {
-					const itemQuantity = quantities[item.id] || item.quantity;
+					const itemQuantity = quantities[item.id] || 1;
 					const itemTotal = calculateItemTotal(item.id, item.price);
 
 					return (
@@ -60,8 +60,8 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 								{/* Item Image */}
 								<div className={styles.itemImage}>
 									<Image
-										src={item.image}
-										alt={item.item_name}
+										src={item.image[0]}
+										alt={item.title}
 										width={80}
 										height={80}
 										style={{ borderRadius: 12, objectFit: "cover" }}
@@ -78,10 +78,10 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 											justifyContent: "space-between",
 										}}>
 										<div style={{ flex: 1 }}>
-											<h3 className={styles.itemName}>{item.item_name}</h3>
-											{item.item_description && (
+											<h3 className={styles.itemName}>{item.title}</h3>
+											{item.description && (
 												<p className={styles.itemDesc}>
-													{item.item_description}
+													{item.description}
 												</p>
 											)}
 										</div>

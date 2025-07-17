@@ -1,5 +1,3 @@
-import { toast } from "sonner";
-
 /**
  * Logger class replicating Sentry-like logging methods.
  */
@@ -80,9 +78,6 @@ export class Logger {
 				break;
 			case "error":
 			case "fatal":
-				toast.error(logEntry.message, {
-					description: logEntry.context?.stack || "An error occurred",
-				});
 				console.error(logEntry);
 				break;
 			default:

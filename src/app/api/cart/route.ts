@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAuth } from "@clerk/nextjs/server";
 import supabase from "@/lib/db";
+import { iAuctionItem, iBid, iCart } from "@/lib/types";
+import logger from "@/lib/logger";
 
 // GET: Retrieve cart
 export async function GET(req: NextRequest) {
@@ -19,28 +21,43 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ error: "Failed to fetch bids" }, { status: 500 });
 	}
 
+	const highestBids = (bids as iBid[]).reduce<Record<string, iBid>>((acc, bid) => {
+		if (!acc[bid.itemId] || bid.amount > acc[bid.itemId].amount) {
+			acc[bid.itemId] = bid;
+		}
+		return acc;
+	}, {});
+
+	// get only the user's highest bids
+	const userHighestBids = Object.values(highestBids).filter((bid) => bid.userId === userId);
+
+	console.log("User's highest bids:", userHighestBids);
+
 	// For each bid, get the item details
-	const itemIds = bids.map((bid: any) => bid.itemId);
+	const itemIds = userHighestBids.map((bid) => parseInt(bid.itemId, 10));
+
+	// console.log("Item IDs:", itemIds);
+
 	const { data: items, error: itemsError } = await supabase
 		.from("items")
 		.select("*")
 		.in("id", itemIds);
 
 	if (itemsError) {
+		logger.error("Failed to fetch items:", itemsError);
 		return NextResponse.json({ error: "Failed to fetch items" }, { status: 500 });
 	}
 
+	console.log("Items fetched:", items);
+
 	// Build cart items
-	const cartItems = bids.map((bid: any) => {
-		const item = items.find((itm: any) => itm.id === bid.itemId);
+	const cartItems: iAuctionItem[] = userHighestBids.map((bid: any) => {
+		const item: iAuctionItem = items.find((itm: iAuctionItem) => itm.id == bid.itemId);
+		console.log("Item found:", item);
 		return {
-			id: bid.id,
-			item_id: bid.itemId,
-			item_name: item?.title,
-			item_description: item?.description,
+			...item,
 			price: bid.amount,
 			quantity: 1,
-			image: item?.image,
 			user_id: userId,
 			created_at: bid.timestamp,
 			updated_at: bid.timestamp,
@@ -49,7 +66,7 @@ export async function GET(req: NextRequest) {
 
 	const total_amount = cartItems.reduce((sum, item) => sum + item.price, 0);
 
-	const cart = {
+	const cart: iCart = {
 		id: `cart_${userId}`,
 		user_id: userId,
 		items: cartItems,
@@ -58,6 +75,8 @@ export async function GET(req: NextRequest) {
 		created_at: new Date().toISOString(),
 		updated_at: new Date().toISOString(),
 	};
+
+	logger.info(`Cart retrieved for user ${userId}`, { cart });
 
 	return NextResponse.json({ cart });
 }
