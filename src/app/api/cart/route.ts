@@ -71,6 +71,7 @@ export async function GET(req: NextRequest) {
 		user_id: userId,
 		items: cartItems,
 		total_amount,
+		status: "OPEN",
 		items_count: cartItems.length,
 		created_at: new Date().toISOString(),
 		updated_at: new Date().toISOString(),

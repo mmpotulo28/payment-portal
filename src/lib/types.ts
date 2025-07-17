@@ -272,6 +272,7 @@ export interface iCart {
 	items: iAuctionItem[];
 	total_amount: number;
 	items_count: number;
+	status: "OPEN" | "PAID" | "CLOSED";
 	created_at: string;
 	updated_at: string;
 }
