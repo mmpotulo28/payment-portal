@@ -3,6 +3,8 @@ import { TrashIcon, PlusIcon, MinusIcon, HeartIcon } from "@heroicons/react/24/o
 import { HeartIcon as HeartIconSolid } from "@heroicons/react/24/solid";
 import Image from "next/image";
 import { useState } from "react";
+import styles from "./CartSummary.module.css";
+import clsx from "clsx";
 
 interface CartSummaryProps {
 	cart: iCart;
@@ -35,55 +37,50 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 	};
 
 	return (
-		<div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-			<div className="px-6 py-4 border-b border-gray-200 bg-gradient-to-r from-blue-50 to-purple-50">
-				<div className="flex items-center justify-between">
-					<div>
-						<h2 className="text-lg font-semibold text-gray-900">Your Items</h2>
-						<p className="text-sm text-gray-600">
-							{cart.items_count} items in your cart
-						</p>
-					</div>
-					<div className="text-right">
-						<p className="text-sm text-gray-500">Subtotal</p>
-						<p className="text-lg font-bold text-gray-900">
-							R{cart.total_amount.toFixed(2)}
-						</p>
-					</div>
+		<div className={styles.container}>
+			<div className={styles.header}>
+				<div>
+					<h2 className={styles.headerTitle}>Your Items</h2>
+					<p className={styles.headerDesc}>{cart.items_count} items in your cart</p>
+				</div>
+				<div className={styles.headerSubtotal}>
+					<p className={styles.headerSubtotalLabel}>Subtotal</p>
+					<p className={styles.headerSubtotalValue}>R{cart.total_amount.toFixed(2)}</p>
 				</div>
 			</div>
 
-			<div className="divide-y divide-gray-200">
+			<div className={styles.items}>
 				{cart.items.map((item, index) => {
 					const itemQuantity = quantities[item.id] || item.quantity;
 					const itemTotal = calculateItemTotal(item.id, item.price);
 
 					return (
-						<div
-							key={item.id}
-							className="p-6 hover:bg-gray-50 transition-colors duration-200">
-							<div className="flex items-start space-x-4">
+						<div key={item.id} className={styles.item}>
+							<div className={styles.itemContent}>
 								{/* Item Image */}
-								<div className="flex-shrink-0 relative group">
+								<div className={styles.itemImage}>
 									<Image
 										src={item.image}
 										alt={item.item_name}
 										width={80}
 										height={80}
-										className="rounded-lg object-cover transition-transform duration-200 group-hover:scale-105"
+										style={{ borderRadius: 12, objectFit: "cover" }}
 									/>
-									<div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-200 rounded-lg"></div>
+									<div className={styles.itemImageOverlay}></div>
 								</div>
 
 								{/* Item Details */}
-								<div className="flex-1 min-w-0">
-									<div className="flex items-start justify-between">
-										<div className="flex-1">
-											<h3 className="text-base font-medium text-gray-900 truncate">
-												{item.item_name}
-											</h3>
+								<div className={styles.itemDetails}>
+									<div
+										style={{
+											display: "flex",
+											alignItems: "start",
+											justifyContent: "space-between",
+										}}>
+										<div style={{ flex: 1 }}>
+											<h3 className={styles.itemName}>{item.item_name}</h3>
 											{item.item_description && (
-												<p className="text-sm text-gray-600 mt-1 line-clamp-2">
+												<p className={styles.itemDesc}>
 													{item.item_description}
 												</p>
 											)}
@@ -92,24 +89,47 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 										{/* Favorite Button */}
 										<button
 											onClick={() => toggleFavorite(item.id)}
-											className="ml-2 p-1 rounded-full hover:bg-gray-100 transition-colors"
+											className={styles.favoriteBtn}
 											title={
 												favorites[item.id]
 													? "Remove from favorites"
 													: "Add to favorites"
 											}>
 											{favorites[item.id] ? (
-												<HeartIconSolid className="h-5 w-5 text-red-500" />
+												<HeartIconSolid
+													style={{
+														height: 20,
+														width: 20,
+														color: "#ef4444",
+													}}
+												/>
 											) : (
-												<HeartIcon className="h-5 w-5 text-gray-400 hover:text-red-500" />
+												<HeartIcon
+													style={{
+														height: 20,
+														width: 20,
+														color: "#94a3b8",
+													}}
+												/>
 											)}
 										</button>
 									</div>
 
-									<div className="mt-4 flex items-center justify-between">
-										<div className="flex items-center space-x-4">
+									<div
+										style={{
+											marginTop: 16,
+											display: "flex",
+											alignItems: "center",
+											justifyContent: "space-between",
+										}}>
+										<div
+											style={{
+												display: "flex",
+												alignItems: "center",
+												gap: 16,
+											}}>
 											{/* Quantity Controls */}
-											<div className="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+											<div className={styles.quantityControls}>
 												<button
 													onClick={() =>
 														updateQuantity(
@@ -117,40 +137,52 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 															Math.max(1, itemQuantity - 1),
 														)
 													}
-													className="p-2 hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+													className={styles.quantityBtn}
 													disabled={itemQuantity <= 1}
 													title="Decrease quantity">
-													<MinusIcon className="h-4 w-4 text-gray-600" />
+													<MinusIcon
+														style={{
+															height: 16,
+															width: 16,
+															color: "#4b6a8b",
+														}}
+													/>
 												</button>
-												<span className="px-4 py-2 text-sm font-medium text-gray-900 border-x border-gray-300 bg-gray-50">
+												<span className={styles.quantityValue}>
 													{itemQuantity}
 												</span>
 												<button
 													onClick={() =>
 														updateQuantity(item.id, itemQuantity + 1)
 													}
-													className="p-2 hover:bg-gray-100 transition-colors"
+													className={styles.quantityBtn}
 													title="Increase quantity">
-													<PlusIcon className="h-4 w-4 text-gray-600" />
+													<PlusIcon
+														style={{
+															height: 16,
+															width: 16,
+															color: "#4b6a8b",
+														}}
+													/>
 												</button>
 											</div>
 
 											{/* Remove Button */}
 											<button
 												onClick={() => removeItem(item.id)}
-												className="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
+												className={styles.removeBtn}
 												title="Remove item">
-												<TrashIcon className="h-4 w-4" />
+												<TrashIcon style={{ height: 16, width: 16 }} />
 											</button>
 										</div>
 
 										{/* Price */}
-										<div className="text-right">
-											<p className="text-base font-medium text-gray-900">
+										<div className={styles.itemPrice}>
+											<p className={styles.itemPriceValue}>
 												R{itemTotal.toFixed(2)}
 											</p>
 											{itemQuantity > 1 && (
-												<p className="text-xs text-gray-500">
+												<p className={styles.itemPriceEach}>
 													R{item.price.toFixed(2)} each
 												</p>
 											)}
@@ -158,12 +190,12 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 									</div>
 
 									{/* Item Status/Tags */}
-									<div className="mt-3 flex items-center space-x-2">
-										<span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+									<div className={styles.itemTags}>
+										<span className={clsx(styles.tag, styles.tagInStock)}>
 											✓ In Stock
 										</span>
 										{index === 0 && (
-											<span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+											<span className={clsx(styles.tag, styles.tagShipping)}>
 												🚚 Free Shipping
 											</span>
 										)}
@@ -176,18 +208,14 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 			</div>
 
 			{/* Cart Total */}
-			<div className="px-6 py-4 border-t border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
-				<div className="flex items-center justify-between">
-					<div className="text-sm text-gray-600">
-						<p>Subtotal ({cart.items_count} items)</p>
-						<p className="text-xs text-green-600 mt-1">🚚 Free shipping included</p>
-					</div>
-					<div className="text-right">
-						<span className="text-lg font-bold text-gray-900">
-							R{cart.total_amount.toFixed(2)}
-						</span>
-						<p className="text-xs text-gray-500 mt-1">VAT included</p>
-					</div>
+			<div className={styles.cartTotal}>
+				<div>
+					<p className={styles.cartTotalLabel}>Subtotal ({cart.items_count} items)</p>
+					<p className={styles.cartTotalTags}>🚚 Free shipping included</p>
+				</div>
+				<div style={{ textAlign: "right" }}>
+					<span className={styles.cartTotalValue}>R{cart.total_amount.toFixed(2)}</span>
+					<p className={styles.cartTotalVat}>VAT included</p>
 				</div>
 			</div>
 		</div>

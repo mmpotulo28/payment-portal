@@ -1,0 +1,172 @@
+/* PaymentPage.module.css */
+
+.container {
+	min-height: 100vh;
+	background: linear-gradient(135deg, var(--background) 0%, #fff 50%, var(--secondary) 100%);
+}
+
+.header {
+	background: var(--background);
+	backdrop-filter: blur(8px);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+	border-bottom: 1px solid var(--border);
+	position: sticky;
+	top: 0;
+	z-index: 40;
+}
+
+.headerInner {
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 16px 32px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.headerLeft {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.headerBack {
+	display: inline-flex;
+	align-items: center;
+	font-size: 14px;
+	color: var(--text-secondary-foreground);
+	text-decoration: none;
+	transition: color 0.2s;
+}
+.headerBack:hover {
+	color: var(--foreground);
+}
+
+.headerDivider {
+	display: none;
+}
+@media (min-width: 640px) {
+	.headerDivider {
+		display: block;
+		width: 1px;
+		height: 24px;
+		background: var(--border);
+	}
+}
+
+.headerTitle {
+	font-size: 20px;
+	font-weight: bold;
+	color: var(--foreground);
+}
+
+.headerRight {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	color: var(--text-secondary-foreground);
+}
+
+.progress {
+	margin-bottom: 32px;
+}
+.progressInner {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+	margin-bottom: 24px;
+}
+.progressStep {
+	display: flex;
+	align-items: center;
+}
+.progressCircle {
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	font-weight: 500;
+}
+.progressCircleActive {
+	background: var(--primary);
+	color: var(--primary-foreground);
+}
+.progressCircleInactive {
+	background: var(--muted);
+	color: var(--muted-foreground);
+}
+.progressLabelActive {
+	margin-left: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--primary);
+}
+.progressLabelInactive {
+	margin-left: 8px;
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--muted-foreground);
+}
+.progressBarActive {
+	width: 64px;
+	height: 2px;
+	background: var(--primary);
+}
+.progressBarInactive {
+	width: 64px;
+	height: 2px;
+	background: var(--muted);
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 32px;
+}
+@media (min-width: 1024px) {
+	.grid {
+		grid-template-columns: 2fr 1fr;
+	}
+}
+
+.mainContent {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.trustSignals {
+	margin-top: 48px;
+	background: var(--card);
+	border-radius: var(--radius);
+	padding: 24px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+	border: 1px solid var(--border);
+}
+.trustSignalsInner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 16px;
+}
+@media (min-width: 640px) {
+	.trustSignalsInner {
+		flex-direction: row;
+		gap: 32px;
+	}
+}
+.trustSignal {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+	color: var(--card-foreground);
+}
+
+/* Loading and Empty Cart styles can be moved to their respective components */

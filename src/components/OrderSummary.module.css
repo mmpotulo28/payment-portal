@@ -1,0 +1,216 @@
+/* OrderSummary.module.css */
+
+.container {
+	background: var(--card);
+	border-radius: var(--radius);
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	border: 1px solid var(--border);
+	position: sticky;
+	top: 16px;
+	overflow: hidden;
+}
+.header {
+	padding: 24px 32px 16px 32px;
+	border-bottom: 1px solid var(--border);
+	background: linear-gradient(90deg, var(--background) 0%, var(--secondary) 100%);
+}
+.headerTitle {
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--card-foreground);
+}
+.headerDesc {
+	font-size: 14px;
+	color: var(--muted-foreground);
+}
+
+.body {
+	padding: 24px;
+}
+.orderDetails {
+	margin-bottom: 24px;
+}
+.orderRow {
+	display: flex;
+	justify-content: space-between;
+	font-size: 14px;
+	color: var(--muted-foreground);
+}
+.orderRowValue {
+	color: var(--card-foreground);
+	font-weight: 500;
+}
+.orderTotal {
+	border-top: 1px solid var(--border);
+	padding-top: 12px;
+	display: flex;
+	justify-content: space-between;
+	font-size: 18px;
+	font-weight: 600;
+	color: var(--card-foreground);
+}
+.orderTotalVat {
+	font-size: 12px;
+	color: var(--muted-foreground);
+	margin-top: 4px;
+}
+
+.paymentBtn {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 16px;
+	font-size: 16px;
+	font-weight: 500;
+	border-radius: var(--radius);
+	transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s;
+	border: none;
+	outline: none;
+	margin-bottom: 24px;
+}
+.paymentBtnEnabled {
+	color: var(--primary-foreground);
+	background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+	box-shadow: 0 2px 8px rgba(1, 75, 139, 0.08);
+	cursor: pointer;
+}
+.paymentBtnEnabled:hover {
+	background: linear-gradient(90deg, #014b8b 0%, #1976c5 100%);
+	transform: translateY(-2px);
+}
+.paymentBtnDisabled {
+	color: var(--muted-foreground);
+	background: var(--muted);
+	cursor: not-allowed;
+}
+.paymentBtnSpinner {
+	animation: spin 1s linear infinite;
+	border-radius: 9999px;
+	height: 20px;
+	width: 20px;
+	border-bottom: 2px solid var(--primary-foreground);
+	margin-right: 8px;
+}
+
+.paymentBtnError {
+	font-size: 12px;
+	color: var(--destructive);
+	margin-top: 8px;
+	text-align: center;
+}
+
+.securityBadges {
+	margin-bottom: 24px;
+	padding-top: 24px;
+	border-top: 1px solid var(--border);
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 12px;
+	font-size: 12px;
+	color: var(--muted-foreground);
+}
+.securityBadge {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.securityBadgeGreen {
+	color: #1bb800;
+}
+.securityBadgeBlue {
+	color: var(--primary);
+}
+
+.itemsPreview {
+	margin-bottom: 24px;
+	padding-top: 24px;
+	border-top: 1px solid var(--border);
+}
+.itemsPreviewTitle {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--card-foreground);
+	margin-bottom: 12px;
+}
+.itemsPreviewList {
+	max-height: 128px;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.itemsPreviewItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	font-size: 12px;
+	color: var(--card-foreground);
+}
+.itemsPreviewItemName {
+	font-weight: 500;
+	color: var(--card-foreground);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.itemsPreviewItemDesc {
+	color: var(--muted-foreground);
+}
+
+.deliveryInfo {
+	margin-bottom: 24px;
+	padding-top: 24px;
+	border-top: 1px solid var(--border);
+}
+.deliveryInfoTitle {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--card-foreground);
+	margin-bottom: 12px;
+}
+.deliveryInfoList {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	font-size: 12px;
+	color: var(--muted-foreground);
+}
+.deliveryInfoItem {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+.deliveryInfoBlue {
+	color: var(--primary);
+}
+.deliveryInfoGreen {
+	color: #1bb800;
+}
+
+.support {
+	padding-top: 24px;
+	border-top: 1px solid var(--border);
+}
+.supportBox {
+	background: linear-gradient(90deg, var(--muted) 0%, var(--secondary) 100%);
+	border-radius: var(--radius);
+	padding: 12px;
+	text-align: center;
+}
+.supportText {
+	font-size: 12px;
+	color: var(--muted-foreground);
+}
+.supportTitle {
+	font-weight: 500;
+	color: var(--card-foreground);
+	margin-bottom: 4px;
+}
+.supportEmail {
+	color: var(--primary);
+	font-weight: 500;
+}
+.supportPhone {
+	margin-top: 4px;
+}

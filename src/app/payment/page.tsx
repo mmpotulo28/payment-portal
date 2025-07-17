@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import styles from "./PaymentPage.module.css";
 import { DUMMY_CART, DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";
 import { iCart, iPaymentMethod } from "@/lib/types";
 import CartSummary from "@/components/CartSummary";
@@ -88,13 +89,29 @@ export default function PaymentPage() {
 
 	if (isLoading) {
 		return (
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
-				<div className="text-center">
-					<div className="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600 mx-auto mb-4"></div>
-					<h2 className="text-xl font-semibold text-gray-700 mb-2">
+			<div
+				className={styles.container}
+				style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+				<div style={{ textAlign: "center" }}>
+					<div
+						style={{
+							animation: "spin 1s linear infinite",
+							borderRadius: "9999px",
+							height: 64,
+							width: 64,
+							borderBottom: "4px solid #2563eb",
+							margin: "0 auto 16px auto",
+						}}></div>
+					<h2
+						style={{
+							fontSize: 20,
+							fontWeight: 600,
+							color: "#374151",
+							marginBottom: 8,
+						}}>
 						Loading your cart...
 					</h2>
-					<p className="text-gray-500">
+					<p style={{ color: "#6b7280" }}>
 						Please wait while we prepare your checkout experience
 					</p>
 				</div>
@@ -104,19 +121,52 @@ export default function PaymentPage() {
 
 	if (!cart || cart.items.length === 0) {
 		return (
-			<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center">
-				<div className="text-center max-w-md mx-auto p-8">
-					<div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-						<span className="text-4xl">🛒</span>
+			<div
+				className={styles.container}
+				style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+				<div style={{ textAlign: "center", maxWidth: 400, margin: "0 auto", padding: 32 }}>
+					<div
+						style={{
+							width: 96,
+							height: 96,
+							background: "#f3f4f6",
+							borderRadius: "9999px",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							margin: "0 auto 24px auto",
+						}}>
+						<span style={{ fontSize: 32 }}>🛒</span>
 					</div>
-					<h2 className="text-2xl font-bold text-gray-900 mb-4">Your cart is empty</h2>
-					<p className="text-gray-600 mb-6">
+					<h2
+						style={{
+							fontSize: 24,
+							fontWeight: "bold",
+							color: "#111827",
+							marginBottom: 16,
+						}}>
+						Your cart is empty
+					</h2>
+					<p style={{ color: "#4b5563", marginBottom: 24 }}>
 						Looks like you haven&apos;t added any items to your cart yet. Start shopping
 						to see your items here!
 					</p>
 					<Link
 						href="/"
-						className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl">
+						style={{
+							display: "inline-flex",
+							alignItems: "center",
+							padding: "12px 24px",
+							border: "none",
+							fontSize: 16,
+							fontWeight: 500,
+							borderRadius: 12,
+							color: "#fff",
+							background: "linear-gradient(90deg, #2563eb 0%, #7c3aed 100%)",
+							boxShadow: "0 2px 8px rgba(99,102,241,0.15)",
+							textDecoration: "none",
+							transition: "background 0.2s",
+						}}>
 						Start Shopping
 					</Link>
 				</div>
@@ -125,68 +175,65 @@ export default function PaymentPage() {
 	}
 
 	return (
-		<div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+		<div className={styles.container}>
 			{/* Enhanced Header */}
-			<header className="bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-200 sticky top-0 z-40">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-					<div className="flex items-center justify-between">
-						<div className="flex items-center space-x-4">
-							<Link
-								href="/"
-								className="inline-flex items-center text-sm text-gray-500 hover:text-gray-700 transition-colors">
-								<ChevronLeftIcon className="h-4 w-4 mr-1" />
-								Back to shopping
-							</Link>
-							<div className="hidden sm:block w-px h-6 bg-gray-300"></div>
-							<h1 className="text-xl font-bold text-gray-900">Secure Checkout</h1>
-						</div>
-						<div className="flex items-center space-x-2 text-sm text-gray-600">
-							<ShieldCheckIcon className="h-4 w-4" />
-							<span className="hidden sm:inline">SSL Secured</span>
-						</div>
+			<header className={styles.header}>
+				<div className={styles.headerInner}>
+					<div className={styles.headerLeft}>
+						<Link href="/" className={styles.headerBack}>
+							<ChevronLeftIcon style={{ height: 16, width: 16, marginRight: 4 }} />
+							Back to shopping
+						</Link>
+						<div className={styles.headerDivider}></div>
+						<h1 className={styles.headerTitle}>Secure Checkout</h1>
+					</div>
+					<div className={styles.headerRight}>
+						<ShieldCheckIcon style={{ height: 16, width: 16 }} />
+						<span style={{ display: "none" }}>SSL Secured</span>
 					</div>
 				</div>
 			</header>
 
-			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+			<div style={{ maxWidth: 1120, margin: "0 auto", padding: "32px 16px" }}>
 				{/* Progress Indicator */}
-				<div className="mb-8">
-					<div className="flex items-center justify-center space-x-4 mb-6">
-						<div className="flex items-center">
-							<div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+				<div className={styles.progress}>
+					<div className={styles.progressInner}>
+						<div className={styles.progressStep}>
+							<div
+								className={`${styles.progressCircle} ${styles.progressCircleActive}`}>
 								1
 							</div>
-							<span className="ml-2 text-sm font-medium text-blue-600">
-								Review Items
-							</span>
+							<span className={styles.progressLabelActive}>Review Items</span>
 						</div>
-						<div className="w-16 h-0.5 bg-blue-600"></div>
-						<div className="flex items-center">
-							<div className="w-8 h-8 bg-blue-600 text-white rounded-full flex items-center justify-center text-sm font-medium">
+						<div className={styles.progressBarActive}></div>
+						<div className={styles.progressStep}>
+							<div
+								className={`${styles.progressCircle} ${styles.progressCircleActive}`}>
 								2
 							</div>
-							<span className="ml-2 text-sm font-medium text-blue-600">Payment</span>
+							<span className={styles.progressLabelActive}>Payment</span>
 						</div>
-						<div className="w-16 h-0.5 bg-gray-300"></div>
-						<div className="flex items-center">
-							<div className="w-8 h-8 bg-gray-300 text-gray-500 rounded-full flex items-center justify-center text-sm font-medium">
+						<div className={styles.progressBarInactive}></div>
+						<div className={styles.progressStep}>
+							<div
+								className={`${styles.progressCircle} ${styles.progressCircleInactive}`}>
 								3
 							</div>
-							<span className="ml-2 text-sm font-medium text-gray-500">Complete</span>
+							<span className={styles.progressLabelInactive}>Complete</span>
 						</div>
 					</div>
 				</div>
 
-				<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+				<div className={styles.grid}>
 					{/* Main Content */}
-					<div className="lg:col-span-2 space-y-6">
+					<div className={styles.mainContent}>
 						{/* Cart Summary */}
-						<div className="animate-fadeIn">
+						<div>
 							<CartSummary cart={cart} />
 						</div>
 
 						{/* Payment Methods */}
-						<div className="animate-fadeIn animation-delay-200">
+						<div>
 							<PaymentMethods
 								paymentMethods={paymentMethods}
 								selectedMethod={selectedPaymentMethod}
@@ -196,8 +243,8 @@ export default function PaymentPage() {
 					</div>
 
 					{/* Sidebar */}
-					<div className="lg:col-span-1">
-						<div className="animate-fadeIn animation-delay-400">
+					<div className={styles.sidebar}>
+						<div>
 							<OrderSummary
 								cart={cart}
 								selectedPaymentMethod={selectedPaymentMethod}
@@ -209,22 +256,22 @@ export default function PaymentPage() {
 				</div>
 
 				{/* Trust Signals */}
-				<div className="mt-12 bg-white rounded-xl p-6 shadow-sm border border-gray-200">
-					<div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8">
-						<div className="flex items-center space-x-2 text-sm text-gray-600">
-							<ShieldCheckIcon className="h-5 w-5 text-green-500" />
+				<div className={styles.trustSignals}>
+					<div className={styles.trustSignalsInner}>
+						<div className={styles.trustSignal}>
+							<ShieldCheckIcon style={{ height: 20, width: 20, color: "#22c55e" }} />
 							<span>256-bit SSL Encryption</span>
 						</div>
-						<div className="flex items-center space-x-2 text-sm text-gray-600">
-							<span className="text-green-500">🔒</span>
+						<div className={styles.trustSignal}>
+							<span style={{ color: "#22c55e" }}>🔒</span>
 							<span>PCI DSS Compliant</span>
 						</div>
-						<div className="flex items-center space-x-2 text-sm text-gray-600">
-							<span className="text-green-500">✓</span>
+						<div className={styles.trustSignal}>
+							<span style={{ color: "#22c55e" }}>✓</span>
 							<span>Money-back Guarantee</span>
 						</div>
-						<div className="flex items-center space-x-2 text-sm text-gray-600">
-							<span className="text-green-500">📞</span>
+						<div className={styles.trustSignal}>
+							<span style={{ color: "#22c55e" }}>📞</span>
 							<span>24/7 Support</span>
 						</div>
 					</div>
