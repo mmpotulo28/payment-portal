@@ -1,3 +1,46 @@
+# Auction Market SA Payment Portal
+
+This is the official payment and checkout portal for [Auction Market SA](https://auctionmarket.tech), a public South African online auction marketplace.
+
+## About Auction Market SA
+
+Auction Market SA is a fully online, public auction platform where users can bid on and purchase a wide variety of items. The main website is [https://auctionmarket.tech](https://auctionmarket.tech).
+
+This portal is dedicated to handling secure checkout and payment processing for Auction Market SA, providing users with a seamless and trustworthy payment experience.
+
+## Features
+
+-   Secure checkout for auction purchases
+-   Multiple payment methods including PayFast
+-   Real-time order and payment status updates
+-   Bank-level security and PCI DSS compliance
+-   Modern, responsive design
+
+## How It Works
+
+1. Users bid and win items on [auctionmarket.tech](https://auctionmarket.tech).
+2. When ready to checkout, users are redirected to this portal to complete payment.
+3. After successful payment, orders are processed and confirmed.
+
+## Support
+
+For help or inquiries, contact:
+
+-   Email: [support@auctionmarket.tech](mailto:support@auctionmarket.tech)
+-   Phone: [+27 79 653 0453](tel:+27796530453)
+
+## Tech Stack
+
+-   Next.js
+-   Clerk (authentication)
+-   Supabase (database)
+-   Tailwind CSS
+-   PayFast (payment integration)
+
+## License
+
+This project is proprietary and maintained by Auction Market SA.
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
@@ -24,8 +67,8 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+-   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+-   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 

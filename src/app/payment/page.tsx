@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 import { useUser, RedirectToSignIn, UserButton } from "@clerk/nextjs";
 import styles from "./PaymentPage.module.css";
-import { DUMMY_CART, DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";
+import { DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";
 import { iCart, iPaymentMethod } from "@/lib/types";
 import CartSummary from "@/components/CartSummary";
 import PaymentMethods from "@/components/PaymentMethods";
 import OrderSummary from "@/components/OrderSummary";
 import { ChevronLeftIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
+import axios from "axios";
 
 export default function PaymentPage() {
 	const { isSignedIn, isLoaded } = useUser();
@@ -26,11 +27,18 @@ export default function PaymentPage() {
 	const [isProcessing, setIsProcessing] = useState(false);
 
 	useEffect(() => {
-		// Simulate loading cart data with a more realistic delay
-		setTimeout(() => {
-			setCart(DUMMY_CART);
-			setIsLoading(false);
-		}, 800);
+		// Fetch cart from API using axios
+		const fetchCart = async () => {
+			try {
+				const res = await axios.get("/api/cart");
+				setCart(res.data.cart);
+			} catch (err) {
+				setCart(null);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+		fetchCart();
 	}, []);
 
 	const handlePaymentMethodSelect = (methodId: string) => {

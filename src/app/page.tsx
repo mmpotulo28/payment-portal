@@ -1,6 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ShoppingCartIcon, CreditCardIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
+import {
+	ShoppingCartIcon,
+	CreditCardIcon,
+	ShieldCheckIcon,
+	ArrowTopRightOnSquareIcon,
+} from "@heroicons/react/24/outline";
 
 export default function Home() {
 	return (
@@ -13,27 +18,36 @@ export default function Home() {
 							<Image
 								className="dark:invert"
 								src="/next.svg"
-								alt="Payment Portal"
+								alt="Auction Market SA Payment Portal"
 								width={120}
 								height={25}
 								priority
 							/>
+							<span className="ml-4 font-bold text-blue-700 text-lg hidden sm:inline">
+								Auction Market SA
+							</span>
 						</div>
 						<nav className="hidden md:flex items-center space-x-8">
+							<Link
+								href="https://auctionmarket.tech"
+								target="_blank"
+								className="text-gray-600 hover:text-blue-700 flex items-center">
+								Main Site <ArrowTopRightOnSquareIcon className="h-4 w-4 ml-1" />
+							</Link>
 							<a href="#features" className="text-gray-600 hover:text-gray-900">
 								Features
 							</a>
 							<a href="#security" className="text-gray-600 hover:text-gray-900">
 								Security
 							</a>
-							<a href="#pricing" className="text-gray-600 hover:text-gray-900">
-								Pricing
+							<a href="#support" className="text-gray-600 hover:text-gray-900">
+								Support
 							</a>
 							<Link
 								href="/payment"
 								className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
 								<ShoppingCartIcon className="h-4 w-4 mr-2" />
-								View Cart
+								Checkout
 							</Link>
 						</nav>
 					</div>
@@ -43,12 +57,21 @@ export default function Home() {
 			{/* Hero Section */}
 			<main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 				<div className="text-center">
-					<h1 className="text-4xl sm:text-6xl font-bold text-gray-900 mb-6">
-						Modern Payment Portal
+					<h1 className="text-4xl sm:text-6xl font-bold text-blue-900 mb-6">
+						Auction Market SA Payment Portal
 					</h1>
-					<p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-						Experience seamless, secure, and intuitive payment processing with our
-						modern checkout system.
+					<p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
+						Secure, fast, and intuitive checkout for South Africa's public online
+						auction marketplace.
+						<br />
+						All payments for{" "}
+						<Link
+							href="https://auctionmarket.tech"
+							target="_blank"
+							className="text-blue-700 underline">
+							auctionmarket.tech
+						</Link>{" "}
+						are processed here.
 					</p>
 
 					<div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
@@ -56,13 +79,15 @@ export default function Home() {
 							href="/payment"
 							className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors">
 							<ShoppingCartIcon className="h-5 w-5 mr-2" />
-							Try Demo Checkout
+							Proceed to Checkout
 						</Link>
-						<a
-							href="#features"
-							className="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors">
-							Learn More
-						</a>
+						<Link
+							href="https://auctionmarket.tech"
+							target="_blank"
+							className="inline-flex items-center justify-center px-8 py-3 border border-gray-300 text-base font-medium rounded-md text-blue-700 bg-white hover:bg-gray-50 transition-colors">
+							Visit Auction Market SA{" "}
+							<ArrowTopRightOnSquareIcon className="h-5 w-5 ml-2" />
+						</Link>
 					</div>
 
 					{/* Preview Cards */}
@@ -75,8 +100,8 @@ export default function Home() {
 								Multiple Payment Methods
 							</h3>
 							<p className="text-gray-600 text-sm">
-								Support for PayFast, credit cards, bank transfers, and more payment
-								options.
+								PayFast, credit cards, bank transfers, and more. All payments are
+								processed securely for Auction Market SA.
 							</p>
 						</div>
 
@@ -98,11 +123,11 @@ export default function Home() {
 								<span className="text-purple-600 text-xl">⚡</span>
 							</div>
 							<h3 className="text-lg font-semibold text-gray-900 mb-2">
-								Lightning Fast
+								Lightning Fast Checkout
 							</h3>
 							<p className="text-gray-600 text-sm">
-								Optimized checkout flow that reduces cart abandonment and increases
-								conversions.
+								Optimized payment flow for Auction Market SA to reduce cart
+								abandonment and increase conversions.
 							</p>
 						</div>
 					</div>
@@ -111,12 +136,12 @@ export default function Home() {
 				{/* Features Section */}
 				<section id="features" className="mt-24">
 					<div className="text-center mb-12">
-						<h2 className="text-3xl font-bold text-gray-900 mb-4">
-							Why Choose Our Payment Portal?
+						<h2 className="text-3xl font-bold text-blue-900 mb-4">
+							Why Choose Auction Market SA Payment Portal?
 						</h2>
-						<p className="text-lg text-gray-600 max-w-2xl mx-auto">
-							Built with modern web technologies and best practices for optimal user
-							experience.
+						<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+							Built for South African online auctions. Secure, reliable, and easy to
+							use.
 						</p>
 					</div>
 
@@ -131,8 +156,8 @@ export default function Home() {
 										Smart Cart Management
 									</h3>
 									<p className="text-gray-600">
-										Intelligent cart system that saves user preferences and
-										maintains session state.
+										Your winning bids and items are automatically added to your
+										cart for easy checkout.
 									</p>
 								</div>
 							</div>
@@ -146,8 +171,8 @@ export default function Home() {
 										PayFast Integration
 									</h3>
 									<p className="text-gray-600">
-										Seamless integration with PayFast for secure South African
-										payment processing.
+										South Africa's trusted payment gateway for secure
+										transactions.
 									</p>
 								</div>
 							</div>
@@ -170,7 +195,7 @@ export default function Home() {
 
 						<div className="bg-white rounded-lg shadow-lg p-8">
 							<h3 className="text-xl font-semibold text-gray-900 mb-4">
-								Sample Cart Items
+								Sample Auction Cart
 							</h3>
 							<div className="space-y-4">
 								<div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg">
@@ -207,13 +232,91 @@ export default function Home() {
 						</div>
 					</div>
 				</section>
+
+				{/* Security Section */}
+				<section id="security" className="mt-24">
+					<div className="text-center mb-12">
+						<h2 className="text-3xl font-bold text-blue-900 mb-4">Security & Trust</h2>
+						<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+							Your payments are protected by industry-leading security standards.
+						</p>
+					</div>
+					<div className="flex flex-col md:flex-row justify-center items-center gap-8">
+						<div className="flex items-center gap-3 bg-white rounded-lg shadow p-4">
+							<ShieldCheckIcon className="h-6 w-6 text-green-600" />
+							<span className="font-semibold text-gray-900">
+								256-bit SSL Encryption
+							</span>
+						</div>
+						<div className="flex items-center gap-3 bg-white rounded-lg shadow p-4">
+							<span className="text-green-600 text-xl">🔒</span>
+							<span className="font-semibold text-gray-900">PCI DSS Compliant</span>
+						</div>
+						<div className="flex items-center gap-3 bg-white rounded-lg shadow p-4">
+							<span className="text-green-600 text-xl">✓</span>
+							<span className="font-semibold text-gray-900">
+								Money-back Guarantee
+							</span>
+						</div>
+						<div className="flex items-center gap-3 bg-white rounded-lg shadow p-4">
+							<span className="text-green-600 text-xl">📞</span>
+							<span className="font-semibold text-gray-900">24/7 Support</span>
+						</div>
+					</div>
+				</section>
+
+				{/* Support Section */}
+				<section id="support" className="mt-24">
+					<div className="text-center mb-8">
+						<h2 className="text-3xl font-bold text-blue-900 mb-4">Need Help?</h2>
+						<p className="text-lg text-gray-700 max-w-2xl mx-auto">
+							Our support team is here for you. Reach out anytime!
+						</p>
+					</div>
+					<div className="flex flex-col md:flex-row justify-center items-center gap-8">
+						<div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+							<span className="font-semibold text-gray-900 mb-2">Email</span>
+							<a
+								href="mailto:support@auctionmarket.tech"
+								className="text-blue-700 underline">
+								support@auctionmarket.tech
+							</a>
+						</div>
+						<div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+							<span className="font-semibold text-gray-900 mb-2">Phone</span>
+							<a href="tel:+27796530453" className="text-blue-700 underline">
+								+27 79 653 0453
+							</a>
+						</div>
+						<div className="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+							<span className="font-semibold text-gray-900 mb-2">Main Site</span>
+							<Link
+								href="https://auctionmarket.tech"
+								target="_blank"
+								className="text-blue-700 underline">
+								auctionmarket.tech
+							</Link>
+						</div>
+					</div>
+				</section>
 			</main>
 
 			{/* Footer */}
 			<footer className="bg-white border-t border-gray-200 mt-24">
 				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
 					<div className="text-center text-gray-600">
-						<p>&copy; 2025 Payment Portal. Built with Next.js and Tailwind CSS.</p>
+						<p>
+							&copy; {new Date().getFullYear()} Auction Market SA Payment Portal.
+							Powered by Next.js & Tailwind CSS.
+							<br />
+							For auctions, visit{" "}
+							<Link
+								href="https://auctionmarket.tech"
+								target="_blank"
+								className="text-blue-700 underline">
+								auctionmarket.tech
+							</Link>
+						</p>
 					</div>
 				</div>
 			</footer>
