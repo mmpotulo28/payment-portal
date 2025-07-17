@@ -1,4 +1,4 @@
-import { toast } from "sonner-native";
+import { toast } from "sonner";
 
 /**
  * Logger class replicating Sentry-like logging methods.
