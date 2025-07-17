@@ -104,18 +104,17 @@ export async function POST(request: NextRequest) {
 			}
 
 			// 3. Update inventory
-			supabase
+			const { error: updateError } = await supabase
 				.from("items")
 				.update({ status: "SOLD" })
 				.in("id", itemIds)
-				.select("*")
-				.then(({ error: updateError, data: updatedItems }) => {
-					if (updateError) {
-						logger.error("Failed to update inventory after payment:", updateError);
-					} else {
-						logger.info("Items updated after payment to SOLD", { updatedItems });
-					}
-				});
+				.select("*");
+
+			if (updateError) {
+				logger.error("Failed to update inventory after payment:", updateError);
+			} else {
+				logger.info("Items updated after payment to SOLD", { updatedItems: itemIds });
+			}
 
 			// update cart status to paid
 			// supabase
