@@ -1,4 +1,4 @@
-import { iAuction, iAuctionItem, iBid, iCartItem, iCart, iPaymentMethod } from "./types";
+import { iAuction, iAuctionItem, iBid, iPaymentMethod } from "./types";
 
 export const DUMMY_AUCTIONS: iAuction[] = [
 	{
@@ -57,55 +57,6 @@ export const DUMMY_ITEMS: iAuctionItem[] = [
 		auction: DUMMY_AUCTIONS[1],
 	},
 ];
-
-export const DUMMY_CART_ITEMS: iCartItem[] = [
-	{
-		id: "cart-1",
-		item_id: "item-1",
-		item_name: "Vintage Watch",
-		item_description: "A beautiful vintage watch from the 1950s",
-		price: 120,
-		quantity: 1,
-		image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300",
-		user_id: "user-123",
-		created_at: new Date().toISOString(),
-		updated_at: new Date().toISOString(),
-	},
-	{
-		id: "cart-2",
-		item_id: "item-2",
-		item_name: "Antique Vase",
-		item_description: "Rare antique vase from 19th century",
-		price: 80,
-		quantity: 2,
-		image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300",
-		user_id: "user-123",
-		created_at: new Date().toISOString(),
-		updated_at: new Date().toISOString(),
-	},
-	{
-		id: "cart-3",
-		item_id: "item-3",
-		item_name: "Rare Coin",
-		item_description: "A rare collectible coin from the Roman era",
-		price: 50,
-		quantity: 1,
-		image: "https://images.unsplash.com/photo-1640340434855-6084b1f4901c?w=300",
-		user_id: "user-123",
-		created_at: new Date().toISOString(),
-		updated_at: new Date().toISOString(),
-	},
-];
-
-export const DUMMY_CART: iCart = {
-	id: "cart-user-123",
-	user_id: "user-123",
-	items: DUMMY_CART_ITEMS,
-	total_amount: DUMMY_CART_ITEMS.reduce((total, item) => total + item.price * item.quantity, 0),
-	items_count: DUMMY_CART_ITEMS.reduce((count, item) => count + item.quantity, 0),
-	created_at: new Date().toISOString(),
-	updated_at: new Date().toISOString(),
-};
 
 export const DUMMY_PAYMENT_METHODS: iPaymentMethod[] = [
 	{
