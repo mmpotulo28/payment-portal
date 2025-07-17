@@ -77,7 +77,7 @@ export default function Home() {
 						Auction Market SA Payment Portal
 					</h1>
 					<p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto animate-fadeIn delay-200">
-						Secure, fast, and intuitive checkout for South Africa's public online
+						Secure, fast, and intuitive checkout for South Africas public online
 						auction marketplace.
 						<br />
 						All payments for{" "}
@@ -187,7 +187,7 @@ export default function Home() {
 										PayFast Integration
 									</h3>
 									<p className="text-gray-600">
-										South Africa's trusted payment gateway for secure
+										South Africas trusted payment gateway for secure
 										transactions.
 									</p>
 								</div>
