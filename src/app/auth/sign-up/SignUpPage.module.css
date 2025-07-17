@@ -1,7 +1,5 @@
 /* SignUpPage.module.css */
-:root {
-	--radius: 0.625rem;
-}
+
 .container {
 	min-height: 100vh;
 	background: linear-gradient(135deg, var(--background) 0%, var(--secondary) 100%);
