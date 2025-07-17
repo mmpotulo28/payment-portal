@@ -131,6 +131,7 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 											{/* Quantity Controls */}
 											<div className={styles.quantityControls}>
 												<button
+													aria-disabled={true}
 													onClick={() =>
 														updateQuantity(
 															item.id,
@@ -138,7 +139,7 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 														)
 													}
 													className={styles.quantityBtn}
-													disabled={itemQuantity <= 1}
+													disabled={true}
 													title="Decrease quantity">
 													<MinusIcon
 														style={{
@@ -152,6 +153,8 @@ export default function CartSummary({ cart }: CartSummaryProps) {
 													{itemQuantity}
 												</span>
 												<button
+													aria-disabled={true}
+													disabled={true}
 													onClick={() =>
 														updateQuantity(item.id, itemQuantity + 1)
 													}

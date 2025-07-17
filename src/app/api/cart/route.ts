@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
 	// get only the user's highest bids
 	const userHighestBids = Object.values(highestBids).filter((bid) => bid.userId === userId);
 
-	console.log("User's highest bids:", userHighestBids);
+	// console.log("User's highest bids:", userHighestBids);
 
 	// For each bid, get the item details
 	const itemIds = userHighestBids.map((bid) => parseInt(bid.itemId, 10));
@@ -48,12 +48,12 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({ error: "Failed to fetch items" }, { status: 500 });
 	}
 
-	console.log("Items fetched:", items);
+	// console.log("Items fetched:", items);
 
 	// Build cart items
 	const cartItems: iAuctionItem[] = userHighestBids.map((bid: any) => {
 		const item: iAuctionItem = items.find((itm: iAuctionItem) => itm.id == bid.itemId);
-		console.log("Item found:", item);
+		// console.log("Item found:", item);
 		return {
 			...item,
 			price: bid.amount,
@@ -76,9 +76,43 @@ export async function GET(req: NextRequest) {
 		updated_at: new Date().toISOString(),
 	};
 
-	logger.info(`Cart retrieved for user ${userId}`, { cart });
+	// check if the user already has a cart
+	const { data: existingCart, error: cartError } = await supabase
+		.from("carts")
+		.select("*")
+		.eq("user_id", userId);
 
-	return NextResponse.json({ cart });
+	if (cartError) {
+		logger.error("Failed to fetch cart:", cartError);
+		return NextResponse.json({ error: "Failed to fetch cart" }, { status: 500 });
+	}
+
+	if (existingCart && existingCart.length > 0) {
+		logger.info(`Cart already exists for user ${userId}`, { cart: existingCart[0] });
+		// update existing cart
+		const { error: updateError } = await supabase
+			.from("carts")
+			.update(cart)
+			.eq("user_id", userId);
+		if (updateError) {
+			logger.error("Failed to update cart:", updateError);
+			return NextResponse.json({ error: "Failed to update cart" }, { status: 500 });
+		}
+		logger.info(`Cart updated for user ${userId}`, { cart: existingCart[0] });
+
+		return NextResponse.json({ cart: existingCart[0] });
+	} else {
+		// create new cart
+		const { error: createError } = await supabase.from("carts").insert([cart]);
+
+		if (createError) {
+			logger.error("Failed to create cart:", createError);
+			return NextResponse.json({ error: "Failed to create cart" }, { status: 500 });
+		}
+		logger.info(`Cart created for user ${userId}`, { cart });
+
+		return NextResponse.json({ cart });
+	}
 }
 
 // POST: Create cart
