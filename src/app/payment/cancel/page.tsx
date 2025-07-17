@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -11,7 +11,7 @@ import {
 import { HomeIcon, CreditCardIcon, ShoppingCartIcon } from "@heroicons/react/24/outline";
 import styles from "./CancelPage.module.css";
 
-export default function PaymentCancel() {
+export function PaymentCancelContent() {
 	const [paymentId, setPaymentId] = useState<string | null>(null);
 	const [isLoading, setIsLoading] = useState(true);
 	const searchParams = useSearchParams();
@@ -201,3 +201,10 @@ export default function PaymentCancel() {
 		</div>
 	);
 }
+
+export default function PaymentCancelPage() {
+return (
+<Suspense fallback="loading cancel content...">
+<PaymentCancelContent/>
+</Suspense>
+)
