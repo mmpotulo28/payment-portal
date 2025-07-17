@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useUser, RedirectToSignIn } from "@clerk/nextjs";
 import styles from "./PaymentPage.module.css";
 import { DUMMY_CART, DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";
 import { iCart, iPaymentMethod } from "@/lib/types";
@@ -11,6 +12,13 @@ import { ChevronLeftIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 export default function PaymentPage() {
+	const { isSignedIn, isLoaded } = useUser();
+	if (!isLoaded) {
+		return null;
+	}
+	if (!isSignedIn) {
+		return <RedirectToSignIn />;
+	}
 	const [cart, setCart] = useState<iCart | null>(null);
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("");
 	const [isLoading, setIsLoading] = useState(true);
@@ -44,13 +52,13 @@ export default function PaymentPage() {
 					merchant_id: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_ID || "10000100",
 					merchant_key: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_KEY || "46f0cd694581a",
 					amount: cart.total_amount.toFixed(2),
-					item_name: `Order for ${cart.items_count} items`,
+					item_name: `AMSA Order for ${cart.items_count} items`,
 					item_description: cart.items
 						.map((item) => `${item.item_name} (x${item.quantity})`)
 						.join(", "),
-					return_url: `${window.location.origin}/payment/success?payment_id=${paymentId}`,
-					cancel_url: `${window.location.origin}/payment/cancel?payment_id=${paymentId}`,
-					notify_url: `${window.location.origin}/api/payfast/notify`,
+					return_url: `${window?.location?.origin}/payment/success?payment_id=${paymentId}`,
+					cancel_url: `${window?.location?.origin}/payment/cancel?payment_id=${paymentId}`,
+					notify_url: `${window?.location?.origin}/api/payfast/notify`,
 					name_first: "John", // In a real app, get from user profile
 					name_last: "Doe",
 					email_address: "user@example.com",
