@@ -118,18 +118,18 @@ export async function POST(request: NextRequest) {
 				});
 
 			// update cart status to paid
-			supabase
-				.from("carts")
-				.update({ status: "PAID" })
-				.eq("user_id", orders[0].user_id)
-				.select("*")
-				.then(({ error: cartError, data: cart }) => {
-					if (cartError) {
-						logger.error("Failed to update cart status after payment:", cartError);
-					} else {
-						logger.info(`Cart updated for user ${orders[0].user_id} to PAID`, { cart });
-					}
-				});
+			// supabase
+			// 	.from("carts")
+			// 	.update({ status: "PAID" })
+			// 	.eq("user_id", orders[0].user_id)
+			// 	.select("*")
+			// 	.then(({ error: cartError, data: cart }) => {
+			// 		if (cartError) {
+			// 			logger.error("Failed to update cart status after payment:", cartError);
+			// 		} else {
+			// 			logger.info(`Cart updated for user ${orders[0].user_id} to PAID`, { cart });
+			// 		}
+			// 	});
 		} else {
 			logger.warn(`Payment cancelled for transaction: ${transaction.pf_payment_id}`);
 			// Handle cancelled payment
