@@ -54,9 +54,31 @@ export async function POST(request: NextRequest) {
 		// Store the transaction
 		await storeTransaction(transaction);
 
-		// TODO: Update order status, send confirmation emails, etc.
+		// Create order with status Pending after payment is received
 		if (transaction.payment_status === "COMPLETE") {
 			logger.info(`Payment completed for transaction: ${transaction.pf_payment_id}`);
+			// Create order in DB
+			const order = {
+				order_id: transaction.m_payment_id || transaction.pf_payment_id,
+				user_id: transaction.custom_str2,
+				item_id: "", // You may want to pass item_id from transaction or cart
+				item_name: transaction.item_name,
+				payment_id: transaction.pf_payment_id,
+				order_status: "PENDING",
+				created_at: new Date().toISOString(),
+				updated_at: new Date().toISOString(),
+				price: transaction.amount_gross,
+				user_email: transaction.email_address,
+				user_first_name: transaction.name_first,
+				user_last_name: transaction.name_last,
+				meta: transaction,
+			};
+			const { error } = await import("@/lib/db").then((db) =>
+				db.default.from("orders").insert([order]),
+			);
+			if (error) {
+				logger.error("Failed to create order after payment:", error);
+			}
 			// Here you would typically:
 			// 1. Update order status to completed
 			// 2. Send confirmation email to customer

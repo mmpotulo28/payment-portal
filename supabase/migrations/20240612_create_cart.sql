@@ -1,0 +1,12 @@
+CREATE TABLE
+IF NOT EXISTS cart
+(
+	id VARCHAR PRIMARY KEY,
+	user_id VARCHAR NOT NULL,
+	items JSONB NOT NULL,
+	total_amount NUMERIC
+(10,2) NOT NULL,
+	items_count INTEGER NOT NULL,
+	created_at TIMESTAMP NOT NULL,
+	updated_at TIMESTAMP NOT NULL
+);

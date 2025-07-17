@@ -74,3 +74,27 @@ export async function addItemToDatabase(
 		};
 	}
 }
+
+export async function createOrUpdateCart(userId: string, cartItems: any[]) {
+	const total_amount = cartItems.reduce((sum, item) => sum + item.price, 0);
+	const cart = {
+		id: `cart_${userId}`,
+		user_id: userId,
+		items: cartItems,
+		total_amount,
+		items_count: cartItems.length,
+		created_at: new Date().toISOString(),
+		updated_at: new Date().toISOString(),
+	};
+	const { error } = await supabase.from("cart").upsert([cart], { onConflict: "id" });
+	return { error };
+}
+
+export async function updateOrderStatus(order_id: string, status: string, userId: string) {
+	const { error } = await supabase
+		.from("orders")
+		.update({ order_status: status })
+		.eq("order_id", order_id)
+		.eq("user_id", userId);
+	return { error };
+}
