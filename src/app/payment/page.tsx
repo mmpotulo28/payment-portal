@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useUser, RedirectToSignIn } from "@clerk/nextjs";
+import { useUser, RedirectToSignIn, UserButton } from "@clerk/nextjs";
 import styles from "./PaymentPage.module.css";
 import { DUMMY_CART, DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";
 import { iCart, iPaymentMethod } from "@/lib/types";
@@ -198,6 +198,37 @@ export default function PaymentPage() {
 					<div className={styles.headerRight}>
 						<ShieldCheckIcon style={{ height: 16, width: 16 }} />
 						<span style={{ display: "none" }}>SSL Secured</span>
+						{/* Clerk UserButton added to top right */}
+						<div style={{ marginLeft: 26 }}>
+							<UserButton
+								appearance={{
+									elements: {
+										avatarBox: {
+											boxShadow: "0 2px 8px rgba(1,75,139,0.10)",
+											borderRadius: "9999px",
+											background: "var(--card)",
+											transition: "box-shadow 0.2s",
+											minWidth: 40,
+											minHeight: 40,
+										},
+										userButtonPopoverCard: {
+											background: "var(--card)",
+											borderRadius: "1rem",
+											boxShadow: "0 4px 24px rgba(0,0,0,0.10)",
+											border: "1px solid var(--border)",
+											color: "var(--card-foreground)",
+										},
+										userButtonPopoverActionButton: {
+											background: "var(--primary)",
+											color: "var(--primary-foreground)",
+											fontWeight: 600,
+											transition: "box-shadow 0.2s",
+											textWrap: "nowrap",
+										},
+									},
+								}}
+							/>
+						</div>
 					</div>
 				</div>
 			</header>
