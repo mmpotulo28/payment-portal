@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useUser, RedirectToSignIn, UserButton } from "@clerk/nextjs";
 import styles from "./PaymentPage.module.css";
 import { DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";
@@ -11,6 +11,8 @@ import OrderSummary from "@/components/OrderSummary";
 import { ChevronLeftIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import axios from "axios";
+import { toast } from "sonner";
+import logger from "@/lib/logger";
 
 export default function PaymentPage() {
 	const { isSignedIn, isLoaded } = useUser();
@@ -19,6 +21,7 @@ export default function PaymentPage() {
 	const [isLoading, setIsLoading] = useState(true);
 	const [paymentMethods] = useState<iPaymentMethod[]>(DUMMY_PAYMENT_METHODS);
 	const [isProcessing, setIsProcessing] = useState(false);
+	const { user } = useUser();
 
 	useEffect(() => {
 		// Fetch cart from API using axios
@@ -27,6 +30,8 @@ export default function PaymentPage() {
 				const res = await axios.get("/api/cart");
 				setCart(res.data.cart);
 			} catch (err) {
+				logger.error("Failed to fetch cart:", err);
+				toast.error("Failed to load your cart. Please try again later.");
 				setCart(null);
 			} finally {
 				setIsLoading(false);
@@ -47,26 +52,28 @@ export default function PaymentPage() {
 		try {
 			if (selectedPaymentMethod === "payfast") {
 				// Generate unique payment ID
-				const paymentId = `PF_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+				const paymentId = `amsa_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
 				// Redirect to PayFast
 				const paymentData = {
 					merchant_id: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_ID || "10000100",
 					merchant_key: process.env.NEXT_PUBLIC_PAYFAST_MERCHANT_KEY || "46f0cd694581a",
 					amount: cart.total_amount.toFixed(2),
-					item_name: `AMSA Order for ${cart.items_count} items`,
+					item_name: `AMSA Order for ${user?.firstName} ${user?.lastName} items`,
 					item_description: cart.items
-						.map((item) => `${item.title} (x${item.id})`)
+						.map((item) => `${item.title} (R${item.price.toFixed(2)})`)
 						.join(", "),
 					return_url: `${window?.location?.origin}/payment/success?payment_id=${paymentId}`,
 					cancel_url: `${window?.location?.origin}/payment/cancel?payment_id=${paymentId}`,
 					notify_url: `${window?.location?.origin}/api/payfast/notify`,
-					name_first: "John", // In a real app, get from user profile
-					name_last: "Doe",
-					email_address: "user@example.com",
+					name_first: user?.firstName || "John", // In a real app, get from user profile
+					name_last: user?.lastName || "Doe",
+					email_address:
+						user?.primaryEmailAddress?.emailAddress?.toString() || "user@example.com",
 					m_payment_id: paymentId,
-					custom_str1: cart.id,
-					custom_str2: cart.user_id,
+					custom_str1: cart.user_id,
+					custom_str2: cart.id,
+					custom_str3: cart.items.map((item) => item.id).join(","),
 				};
 
 				// Create form and submit to PayFast
