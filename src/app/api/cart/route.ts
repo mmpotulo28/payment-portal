@@ -51,7 +51,7 @@ export async function GET(req: NextRequest) {
 	// console.log("Items fetched:", items);
 
 	// Build cart items
-	const cartItems: iAuctionItem[] = userHighestBids.map((bid: any) => {
+	const cartItems: iAuctionItem[] = userHighestBids.map((bid: iBid) => {
 		const item: iAuctionItem = items.find((itm: iAuctionItem) => itm.id == bid.itemId);
 		// console.log("Item found:", item);
 		return {
@@ -125,7 +125,7 @@ export async function POST(req: NextRequest) {
 	const body = await req.json();
 	const { items } = body;
 
-	const total_amount = items.reduce((sum: number, item: any) => sum + item.price, 0);
+	const total_amount = items.reduce((sum: number, item: iAuctionItem) => sum + item.price, 0);
 
 	const cart = {
 		id: `cart_${userId}`,
@@ -153,7 +153,7 @@ export async function PUT(req: NextRequest) {
 	const body = await req.json();
 	const { items } = body;
 
-	const total_amount = items.reduce((sum: number, item: any) => sum + item.price, 0);
+	const total_amount = items.reduce((sum: number, item: iAuctionItem) => sum + item.price, 0);
 
 	const updatedCart = {
 		id: `cart_${userId}`,

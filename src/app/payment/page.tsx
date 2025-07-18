@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { useUser, RedirectToSignIn, UserButton } from "@clerk/nextjs";
 import styles from "./PaymentPage.module.css";
 import { DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";

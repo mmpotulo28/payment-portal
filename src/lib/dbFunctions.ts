@@ -1,5 +1,6 @@
 import supabase, { supabaseAdmin } from "@/lib/db";
 import logger from "./logger";
+import { iAuctionItem } from "./types";
 
 export interface AddItemData {
 	id?: string;
@@ -75,7 +76,7 @@ export async function addItemToDatabase(
 	}
 }
 
-export async function createOrUpdateCart(userId: string, cartItems: any[]) {
+export async function createOrUpdateCart(userId: string, cartItems: iAuctionItem[]) {
 	const total_amount = cartItems.reduce((sum, item) => sum + item.price, 0);
 	const cart = {
 		id: `cart_${userId}`,
