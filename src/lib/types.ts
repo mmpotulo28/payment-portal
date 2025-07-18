@@ -201,7 +201,7 @@ export enum iOrderStatus {
 }
 
 export interface iOrder {
-	id: number;
+	id?: number;
 	order_id: string;
 	user_id: string;
 	item_id: string;
