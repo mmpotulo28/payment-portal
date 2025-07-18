@@ -78,11 +78,14 @@ export async function POST(request: NextRequest) {
 				}
 
 				return {
-					order_id: transaction.m_payment_id || transaction.pf_payment_id,
+					order_id:
+						transaction.pf_payment_id ||
+						transaction.m_payment_id ||
+						`order_${transaction.custom_str1}_${itemId}`,
 					user_id: transaction.custom_str1 || "<USER_ID>",
 					item_id: itemId,
 					item_name: item?.title || transaction.item_name,
-					payment_id: transaction.pf_payment_id,
+					payment_id: transaction.m_payment_id || transaction.pf_payment_id,
 					order_status: iOrderStatus.Pending,
 					created_at: new Date().toISOString(),
 					updated_at: new Date().toISOString(),
@@ -118,18 +121,17 @@ export async function POST(request: NextRequest) {
 			}
 
 			// update cart status to paid
-			// supabase
-			// 	.from("carts")ß
-			// 	.update({ status: "PAID" })
-			// 	.eq("user_id", orders[0].user_id)
-			// 	.select("*")
-			// 	.then(({ error: cartError, data: cart }) => {
-			// 		if (cartError) {
-			// 			logger.error("Failed to update cart status after payment:", cartError);
-			// 		} else {
-			// 			logger.info(`Cart updated for user ${orders[0].user_id} to PAID`, { cart });
-			// 		}
-			// 	});
+			const { error: cartError, data: cart } = await supabase
+				.from("carts")
+				.update({ status: "PAID" })
+				.eq("user_id", orders[0].user_id)
+				.select("*");
+
+			if (cartError) {
+				logger.error("Failed to update cart status after payment:", cartError);
+			} else {
+				logger.info(`Cart updated for user ${orders[0].user_id} to PAID`, { cart });
+			}
 		} else {
 			logger.warn(`Payment cancelled for transaction: ${transaction.pf_payment_id}`);
 			// Handle cancelled payment
