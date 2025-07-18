@@ -5,73 +5,14 @@ import styles from "./SignInPage.module.css";
 
 export default function SignInPage() {
 	return (
-		<div
-			className={styles.container}
-			style={{
-				minHeight: "100vh",
-				position: "relative",
-				overflow: "hidden",
-				background: "linear-gradient(120deg, var(--muted) 0%, var(--secondary) 100%)",
-			}}>
+		<div className={styles.container}>
 			{/* Animated background overlay */}
-			<div
-				style={{
-					position: "absolute",
-					inset: 0,
-					zIndex: 0,
-					pointerEvents: "none",
-					background:
-						"radial-gradient(circle at 20% 40%, #eaf3fb 0%, transparent 60%), radial-gradient(circle at 80% 70%, #b6cfff 0%, transparent 60%)",
-					opacity: 0.7,
-					animation: "fadeIn 1.2s ease",
-				}}
-			/>
-			<div
-				style={{
-					position: "relative",
-					zIndex: 1,
-					display: "flex",
-					flexDirection: "column",
-					justifyContent: "center",
-					alignItems: "center",
-					gap: 32,
-					width: "100%",
-					maxWidth: 1100,
-					margin: "0 auto",
-					padding: "64px 16px",
-				}}
-				className="animate-fadeIn">
+			<div className={styles.backgroundOverlay} />
+			<div className={`${styles.responsiveContainer} animate-fadeIn`}>
 				{/* Responsive flex for desktop */}
-				<style>
-					{`
-						@media (min-width: 900px) {
-							.page-signin-flex {
-								flex-direction: row;
-								gap: 48px;
-							}
-						}
-					`}
-				</style>
-				<div
-					className="page-signin-flex"
-					style={{ display: "flex", flexDirection: "row", gap: 32 }}>
+				<div className={styles.pageSigninFlex}>
 					{/* Left Info/Trust Section */}
-					<div
-						style={{
-							flex: 1,
-							minWidth: 280,
-							maxWidth: 420,
-							background: "var(--card)",
-							borderRadius: "1.5rem",
-							boxShadow: "0 4px 24px rgba(0,75,139,0.08)",
-							border: "1px solid var(--border)",
-							padding: 40,
-							display: "flex",
-							flexDirection: "column",
-							justifyContent: "center",
-							alignItems: "flex-start",
-							animation: "fadeIn 1.2s cubic-bezier(.4,0,.2,1)",
-						}}>
+					<div className={styles.infoSection}>
 						<h2
 							style={{
 								fontSize: "2.2rem",
