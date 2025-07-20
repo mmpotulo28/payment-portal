@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useUser, RedirectToSignIn, UserButton } from "@clerk/nextjs";
 import styles from "./PaymentPage.module.css";
 import { DUMMY_PAYMENT_METHODS } from "@/lib/dummy-data";
@@ -10,18 +10,34 @@ import PaymentMethods from "@/components/PaymentMethods";
 import OrderSummary from "@/components/OrderSummary";
 import { ChevronLeftIcon, ShieldCheckIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { toast } from "sonner";
 import logger from "@/lib/logger";
+import { useSearchParams } from "next/navigation";
 
-export default function PaymentPage() {
+function PaymentPageContent() {
 	const { isSignedIn, isLoaded } = useUser();
 	const [cart, setCart] = useState<iCart | null>(null);
 	const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>("");
 	const [isLoading, setIsLoading] = useState(true);
 	const [paymentMethods] = useState<iPaymentMethod[]>(DUMMY_PAYMENT_METHODS);
 	const [isProcessing, setIsProcessing] = useState(false);
+	const [error, setError] = useState<string>();
 	const { user } = useUser();
+	const searchParams = useSearchParams();
+	const accessToken = searchParams.get("token");
+
+	useEffect(() => {
+		console.log("accessToken:", accessToken);
+	}, [accessToken]);
+
+	useEffect(() => {
+		if (error) {
+			toast.error(error);
+			logger.error(error);
+		}
+		setCart(null);
+	}, [error]);
 
 	useEffect(() => {
 		// Fetch cart from API using axios
@@ -30,8 +46,8 @@ export default function PaymentPage() {
 				const res = await axios.get("/api/cart");
 				setCart(res.data.cart);
 			} catch (err) {
-				logger.error("Failed to fetch cart:", err);
-				toast.error("Failed to load your cart. Please try again later.");
+				const errorMessage = (err as AxiosError).message;
+				setError(errorMessage);
 				setCart(null);
 			} finally {
 				setIsLoading(false);
@@ -79,7 +95,9 @@ export default function PaymentPage() {
 				// Create form and submit to PayFast
 				const form = document.createElement("form");
 				form.method = "POST";
-				form.action = "https://sandbox.payfast.co.za/eng/process";
+				form.action =
+					process.env.NEXT_PUBLIC_PAYFAST_URL ||
+					"https://sandbox.payfast.co.za/eng/process";
 				form.style.display = "none";
 
 				Object.entries(paymentData).forEach(([key, value]) => {
@@ -333,5 +351,13 @@ export default function PaymentPage() {
 				</div>
 			</div>
 		</div>
+	);
+}
+
+export default function PaymentPage() {
+	return (
+		<Suspense fallback="loading payment..">
+			<PaymentPageContent />
+		</Suspense>
 	);
 }
